@@ -1,9 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
+import emailjs from '@emailjs/browser';
+
 
 const FormIn = () => {
 
+    const form = useRef();
+ 
     const [data, setData] = useState({
         your_name: '',
+        your_email:'',
         review_name: '',
         performance: '',
         skills: '',
@@ -22,6 +27,9 @@ const FormIn = () => {
             [name]: value
         }));
     };
+    const BTHOME = () =>{
+        window.location.reload();
+    }
     
 
     const Next = () => {
@@ -52,28 +60,41 @@ const FormIn = () => {
             ques7.style.display = "block";
         }
     }
-    const submitButton = () => {
+    const submitButton = (e) => {
+        e.preventDefault();
         Next();
-        alert(data.work_on)
+       console.log("Design & Developed by Chetan");
+       
+        emailjs.sendForm('service_55paycr', 'template_rwabcdk', e.target, '2aAwYD2YOjYtTQZqv')
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
     }
     return (
         <>
-            <form action="Formp" method="">
+            <form  ref={form} onSubmit={submitButton}>
                 <div className="form-box" id='box-1'>
                     <div className="questions">
-                        1 &#8594; Hi there, what's your name ?
+                        1 &#8594; Hi there, what's your name & email?
                     </div>
                     <div className="input-field">
-                        <input type="text" className='input-text' name='your_name' value={data.your_name} onChange={onChange} placeholder='Type your answer here...' autoComplete='off' />
+                        <input type="text" className='input-text' name='your_name' value={data.your_name} onChange={onChange} placeholder='Type your name here...' autoComplete='off' />
                     </div>
+                    <br/>
+                    <div className="input-field">
+                        <input type="email" className='input-text' name='your_email' value={data.your_email} onChange={onChange} placeholder='Your Email here...' autoComplete='off' />
+                    </div>
+                    
                     <button type='button' className="btn-submit left-btn" onClick={Next}>OK &#10003;</button>
                 </div>
                 <div className="form-box" id='box-2'>
                     <div className="questions">
-                        2 &#8594; And who are you reviewing today ?
+                        2 &#8594; And who are you reviewing today?
                     </div>
                     <div className="input-field">
-                        <input type="text" className='input-text' name='review_name' value={data.review_name} onChange={onChange} placeholder='Type your answer here...' />
+                        <input type="text" className='input-text' name='review_name' value={data.review_name} onChange={onChange} placeholder='Type your answer here...' autoComplete='off' />
                     </div>
                     <button className="btn-submit left-btn" type='button' onClick={Next}>OK &#10003;</button>
                 </div>
@@ -156,8 +177,8 @@ const FormIn = () => {
                         </div>
                     </div>
                     <div className="area4">
-                        <div className="area-ques " onChange={onChange}>Initiative</div>
-                        <div className="area-in ">
+                        <div className="area-ques " >Initiative</div>
+                        <div className="area-in "onChange={onChange}>
                             <label htmlFor='initiative-1' className="area-text-1"><input type="radio" name="initiative" id="initiative-1" value="initiative-1" /><span className="blank-radio"></span>
                             </label>
                             <label htmlFor='initiative-2' className="area-text-1"><input type="radio" name="initiative" id="initiative-2" value="initiative-2" /><span className="blank-radio"></span>
@@ -171,8 +192,8 @@ const FormIn = () => {
                         </div>
                     </div>
                     <div className="area4">
-                        <div className="area-ques " onChange={onChange}>Reliability</div>
-                        <div className="area-in ">
+                        <div className="area-ques ">Reliability</div>
+                        <div className="area-in " onChange={onChange}>
 
                             <label htmlFor='reliability-1' className="area-text-1"><input type="radio" name="reliability" id="reliability-1" value="reliability-1" /><span className="blank-radio"></span>
                             </label>
@@ -187,8 +208,8 @@ const FormIn = () => {
                         </div>
                     </div>
                     <div className="area4">
-                        <div className="area-ques " onChange={onChange}>Punctuality and attendance</div>
-                        <div className="area-in ">
+                        <div className="area-ques " >Punctuality and attendance</div>
+                        <div className="area-in "onChange={onChange}>
                             <label htmlFor='punctuality-1' className="area-text-1"><input type="radio" name="punctuality" id="punctuality-1" value="punctuality-1" /><span className="blank-radio"></span>
                             </label>
                             <label htmlFor='punctuality-2' className="area-text-1"><input type="radio" name="punctuality" id="punctuality-2" value="punctuality-2" /><span className="blank-radio"></span>
@@ -202,8 +223,8 @@ const FormIn = () => {
                         </div>
                     </div>
                     <div className="area4">
-                        <div className="area-ques " onChange={onChange}>Communication</div>
-                        <div className="area-in ">
+                        <div className="area-ques " >Communication</div>
+                        <div className="area-in "onChange={onChange}>
                             <label htmlFor='communication-1' className="area-text-1"><input type="radio" name="communication" id="communication-1" value="communication-1" /><span className="blank-radio"></span>
                             </label>
                             <label htmlFor='communication-2' className="area-text-1"><input type="radio" name="communication" id="communication-2" value="communication-2" /><span className="blank-radio"></span>
@@ -234,13 +255,13 @@ const FormIn = () => {
                     <div className="input-field">
                         <textarea className='input-text input-textarea' name='done_well' value={data.done_well} onChange={onChange} placeholder='Type your answer here...' autoComplete='off' />
                     </div>
-                    <button type='button' className="css-button-sliding-to-left--green left-btn" onClick={submitButton}>Submit</button>
+                    <button type='submit' className="css-button-sliding-to-left--green left-btn" >Submit</button>
                 </div>
                 <div className="form-box" id='box-7'>
                     <div className="questions" style={{textAlign:"center"}}>
                     <div className='right-logo'> &#10003;</div>
                         Thanks for completing the feedback form. <br />
-                       
+                        <button type='button' className="btn-submit left-btn" onClick={BTHOME}>Back To Home &#10003;</button>
                     </div>
                     
                 </div>
